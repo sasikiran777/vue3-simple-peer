@@ -2,10 +2,10 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <div>
-      <button @click="createRoom">Create Room</button>&nbsp;&nbsp;
-      <button @click="joinRoom">Join Room</button>
-      <button @click="muteSound">Mute Sound</button>
-      <button @click="muteVideo">Mute Video</button>
+      <button @click="createRoom">Create Room</button>&nbsp;&nbsp;&nbsp;
+      <button @click="joinRoom">Join Room</button>&nbsp;&nbsp;&nbsp;
+      <button @click="muteSound">Mute Sound</button>&nbsp;&nbsp;&nbsp;
+      <button @click="muteVideo">Mute Video</button>&nbsp;&nbsp;&nbsp;
     </div>
     <div>
       <video playsinline autoplay id="local-stream"></video>&nbsp;&nbsp;
