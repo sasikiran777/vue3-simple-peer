@@ -22,12 +22,21 @@ export default {
   props: {
     msg: String
   },
+  data: function () {
+    return {
+      peer1: null,
+      peer2: null,
+      myStream: null
+    }
+  },
   methods: {
     async createRoom() {
       let _this = this
       let peer = new Peer('another-peers-id')
+      this.peer1 = peer
       peer.on('open', async () => {
         let stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true})
+        _this.myStream = stream
         _this.setLocalStream(stream, true)
         peer.on('call', (call) => {
           call.answer(stream);
@@ -40,8 +49,10 @@ export default {
     async joinRoom() {
       let _this = this
       let peer = new Peer()
+      this.peer2 = peer
       peer.on('open', async () => {
         let stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true})
+        _this.myStream = stream
         _this.setLocalStream(stream, true)
         let call = peer.call('another-peers-id', stream)
         call.on('stream', (stream) => {
@@ -62,11 +73,10 @@ export default {
       video.play();
     },
     muteSound () {
-      let video = document.getElementById('local-stream')
-      video.muted = !video.muted
+      this.myStream.getAudioTracks()[0].enabled = !(this.myStream.getAudioTracks()[0].enabled);
     },
     muteVideo () {
-      let video = document.getElementById('local-stream')
+      this.myStream.getVideoTracks()[0].enabled = !(this.myStream.getVideoTracks()[0].enabled);
     }
   }
 }
