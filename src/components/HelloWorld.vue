@@ -23,43 +23,40 @@ export default {
   methods: {
     async createRoom() {
       let _this = this
-      let stream = ''
       let peer = new Peer('another-peers-id')
       peer.on('open', async () => {
-        stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true})
-        _this.setLocalStream(stream)
-      })
-
-      peer.on('call', (call) => {
-        call.answer(stream);
-        call.on('stream', (mediaStream) => {
-          _this.setRemoteStream(mediaStream)
+        let stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true})
+        _this.setLocalStream(stream, true)
+        peer.on('call', (call) => {
+          call.answer(stream);
+          call.on('stream', (mediaStream) => {
+            _this.setRemoteStream(mediaStream, false)
+          })
         })
       })
     },
     async joinRoom() {
       let _this = this
       let peer = new Peer()
-      let stream
       peer.on('open', async () => {
-        stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true})
-        _this.setLocalStream(stream)
+        let stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true})
+        _this.setLocalStream(stream, true)
         let call = peer.call('another-peers-id', stream)
         call.on('stream', (stream) => {
-          _this.setRemoteStream(stream)
+          _this.setRemoteStream(stream, false)
         });
       })
     },
-    setRemoteStream (remoteStream) {
+    setRemoteStream (remoteStream, mute) {
       let video = document.getElementById('remote-stream')
       video.srcObject = remoteStream
-      video.muted = true
+      video.muted = mute
       video.play();
     },
-    setLocalStream (stream) {
+    setLocalStream (stream, mute) {
       let video = document.getElementById('local-stream')
       video.srcObject = stream
-      video.muted = true
+      video.muted = mute
       video.play();
     }
   }
