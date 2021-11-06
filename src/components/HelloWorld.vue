@@ -4,6 +4,8 @@
     <div>
       <button @click="createRoom">Create Room</button>&nbsp;&nbsp;
       <button @click="joinRoom">Join Room</button>
+      <button @click="muteSound">Mute Sound</button>
+      <button @click="muteVideo">Mute Video</button>
     </div>
     <div>
       <video playsinline autoplay id="local-stream"></video>&nbsp;&nbsp;
@@ -58,6 +60,13 @@ export default {
       video.srcObject = stream
       video.muted = mute
       video.play();
+    },
+    muteSound () {
+      let video = document.getElementById('local-stream')
+      video.muted = !video.muted
+    },
+    muteVideo () {
+      let video = document.getElementById('local-stream')
     }
   }
 }
