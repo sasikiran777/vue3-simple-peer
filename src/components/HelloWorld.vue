@@ -62,15 +62,19 @@ export default {
     },
     setRemoteStream (remoteStream, mute) {
       let video = document.getElementById('remote-stream')
-      video.srcObject = remoteStream
-      video.muted = mute
-      video.play();
+      if (!video.srcObject) {
+        video.srcObject = stream
+        video.muted = mute
+        video.play();
+      } 
     },
     setLocalStream (stream, mute) {
       let video = document.getElementById('local-stream')
-      video.srcObject = stream
-      video.muted = mute
-      video.play();
+      if (!video.srcObject) {
+        video.srcObject = stream
+        video.muted = mute
+        video.play();
+      } 
     },
     muteSound () {
       this.myStream.getAudioTracks()[0].enabled = !(this.myStream.getAudioTracks()[0].enabled);
