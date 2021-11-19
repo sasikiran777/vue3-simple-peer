@@ -63,7 +63,7 @@ export default {
     setRemoteStream (remoteStream, mute) {
       let video = document.getElementById('remote-stream')
       if (!video.srcObject) {
-        video.srcObject = stream
+        video.srcObject = remoteStream
         video.muted = mute
         video.play();
       } 
